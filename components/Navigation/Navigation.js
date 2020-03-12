@@ -1,10 +1,10 @@
 import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import QRcodeScanner from './QRcodeScanner';
-import Promotions from './Promotions';
+import QRcodeReader from '../../screens/QRcodeReader';
+import Promotions from '../../screens/Promotions';
 
-const Tabs = () => {
+const Navigation = () => {
 
   const Tab = createMaterialBottomTabNavigator();
 
@@ -18,7 +18,7 @@ const Tabs = () => {
     >
       <Tab.Screen
         name="QR Code Reader"
-        component={QRcodeScanner}
+        component={QRcodeReader}
         options={{
           tabBarLabel: 'QR Code Reader',
           tabBarColor: '#20B4BA',
@@ -42,4 +42,4 @@ const Tabs = () => {
   );
 }
 
-export default Tabs;
+export default Navigation;

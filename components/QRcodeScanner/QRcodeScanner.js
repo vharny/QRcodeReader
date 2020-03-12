@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { Text, View, StyleSheet, Button } from 'react-native'
-import * as Permissions from 'expo-permissions'
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, Text } from 'react-native';
+import Modal from '../Modal/Modal';
 import { BarCodeScanner } from 'expo-barcode-scanner'
-import PromoModal from './PromoModal'
+import * as Permissions from 'expo-permissions';
+import styles from './styles';
 
 const QRcodeScanner = () => {
 	const [hasCameraPermission, setHasCameraPermission] = useState(null);
@@ -22,27 +23,18 @@ const QRcodeScanner = () => {
 	}
 
 	return (
-		<View
-			style={{
-				flex: 1,
-				flexDirection: 'column',
-				justifyContent: 'flex-end',
-			}}>
-
-			{hasCameraPermission === null && <Text>Requesting for camera permission</Text>}
-			{!hasCameraPermission && <Text>No access to camera</Text>}
-
+		<View style={styles.container}>
 			<BarCodeScanner
 				onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
 				style={StyleSheet.absoluteFillObject}
-			/>
-
-			{scanned && (
-				<Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />
-			)}
+			>
+				<Text style={styles.scanText}>
+					Scan QR Code
+				</Text>
+			</BarCodeScanner>
 
 			{/* MODAL WITH PROMOTIONAL INFORMATIONS */}
-			<PromoModal scanned={scanned} setScanned={setScanned} />
+			<Modal isVisible={scanned} setVisible={setScanned} />
 		</View>
 	);
 }
