@@ -6,12 +6,18 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-end'
   },
-  scanText: {
+  text: {
     textAlign: 'center',
+    fontWeight: 'bold',
+    color: 'white'
+  },
+  scanText: {
     marginTop: '25%',
-    fontSize: 32,
-    color: 'white',
-    fontWeight: 'bold'
+    fontSize: 32
+  },
+  scanArrow: {
+    marginTop: '5%',
+    fontSize: 48,
   }
 })
 

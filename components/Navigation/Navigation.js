@@ -22,9 +22,7 @@ const Navigation = () => {
         options={{
           tabBarLabel: 'QR Code Reader',
           tabBarColor: '#20B4BA',
-          tabBarIcon: ({ color }) => (
-            <Icon name="qrcode" size={26} color="white" />
-          ),
+          tabBarIcon: () => <Icon name="qrcode" size={26} color="white" />
         }}
       />
       <Tab.Screen
@@ -33,9 +31,7 @@ const Navigation = () => {
         options={{
           tabBarLabel: 'Promotions',
           tabBarColor: '#ff99ff',
-          tabBarIcon: ({ color }) => (
-            <Icon name="tags" size={26} color="white" />
-          ),
+          tabBarIcon: () => <Icon name="tags" size={26} color="white" />
         }}
       />
     </Tab.Navigator>
