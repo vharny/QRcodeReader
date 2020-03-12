@@ -1,6 +1,16 @@
-import React from 'react'
-import QRcodeScanner from './components/QRcodeScanner'
+import React from 'react';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { NavigationContainer } from '@react-navigation/native';
+import Tabs from './components/Tabs'
 
-const App = () => <QRcodeScanner />
+const App = () => {
+  return (
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <Tabs />
+      </NavigationContainer>
+    </SafeAreaProvider>
+  );
+}
 
-export default App
+export default App;
