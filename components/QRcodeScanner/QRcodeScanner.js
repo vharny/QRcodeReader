@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, Alert } from 'react-native';
 import Modal from '../Modal/Modal';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import * as Permissions from 'expo-permissions';
@@ -22,10 +22,16 @@ const QRcodeScanner = ({ isFocused }) => {
   }
 
   handleBarCodeScanned = ({ data }) => {
-    setScanned(true);
     fetch(`${constants.api}/coupon/${data}`)
-      .then(response => response.json())
-			.then(res => setPromotion(res));
+      .then(response => {
+        if (response.ok) {
+          setScanned(true);
+          return response.json();
+        }
+        throw Error();
+      })
+      .then(res => setPromotion(res))
+      .catch(err => Alert.alert('GoStyle', 'Promotion not found!'));
   }
 
   return (
@@ -38,7 +44,9 @@ const QRcodeScanner = ({ isFocused }) => {
 				{/* Display text indications only if QR Code is not scanned yet */}
         {!scanned && (
           <View>
-            <Text style={[styles.text, styles.scanText]}>Scan QR Code</Text>
+            <Text style={[styles.text, styles.scanText]}>
+              Scan QR Code
+            </Text>
             <Icon style={[styles.text, styles.scanArrow]} name="arrow-down" />
           </View>
         )}
@@ -49,6 +57,7 @@ const QRcodeScanner = ({ isFocused }) => {
         isVisible={scanned}
         setVisible={setScanned}
         promotion={promotion}
+        color={'#20B4BA'}
       />
     </View>
   )

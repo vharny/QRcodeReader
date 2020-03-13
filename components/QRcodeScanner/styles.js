@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -19,6 +19,6 @@ const styles = StyleSheet.create({
     marginTop: '5%',
     fontSize: 48,
   }
-})
+});
 
 export default styles;

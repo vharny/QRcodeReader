@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   avatar: {
@@ -14,6 +14,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: '5%'
   }
-})
+});
 
 export default styles;

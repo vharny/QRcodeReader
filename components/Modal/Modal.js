@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import { View } from 'react-native'
 import styles from './style'
 
-const Modal = ({ isVisible, setVisible, promotion }) => {
+const Modal = ({ isVisible, setVisible, promotion, color }) => {
   return (
     <Overlay
       isVisible={isVisible}
