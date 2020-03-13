@@ -3,6 +3,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import Icon from 'react-native-vector-icons/FontAwesome';
 import QRcodeReader from '../../screens/QRcodeReader';
 import Promotions from '../../screens/Promotions';
+import constants from '../../constants';
 
 const Navigation = () => {
 
@@ -21,7 +22,7 @@ const Navigation = () => {
         component={QRcodeReader}
         options={{
           tabBarLabel: 'QR Code Reader',
-          tabBarColor: '#20B4BA',
+          tabBarColor: constants.colors.primary,
           tabBarIcon: () => <Icon name="qrcode" size={26} color="white" />
         }}
       />
@@ -30,7 +31,7 @@ const Navigation = () => {
         component={Promotions}
         options={{
           tabBarLabel: 'Promotions',
-          tabBarColor: '#ff99ff',
+          tabBarColor: constants.colors.secondary,
           tabBarIcon: () => <Icon name="tags" size={26} color="white" />
         }}
       />

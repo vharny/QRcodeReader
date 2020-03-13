@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
+import constants from '../../constants';
 
 const styles = StyleSheet.create({
   avatar: {
-    borderWidth: 2,
-    borderColor: '#20B4BA'
+    borderWidth: 2
   },
   title: {
     fontWeight: 'bold',

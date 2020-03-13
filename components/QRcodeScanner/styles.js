@@ -18,6 +18,11 @@ const styles = StyleSheet.create({
   scanArrow: {
     marginTop: '5%',
     fontSize: 48,
+  },
+  activityIndicator: {
+    flex: 1, 
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
 

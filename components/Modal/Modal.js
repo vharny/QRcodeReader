@@ -2,14 +2,14 @@ import React from 'react'
 import { Overlay, Button, Text, Avatar } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { View } from 'react-native'
-import styles from './style'
+import styles from './styles'
 
-const Modal = ({ isVisible, setVisible, promotion, color }) => {
+const Modal = ({ isVisible, toggle, promotion, color }) => {
   return (
     <Overlay
       isVisible={isVisible}
       windowBackgroundColor="rgba(255, 255, 255, .5)"
-      onBackdropPress={() => setVisible(!isVisible)}
+      onBackdropPress={() => toggle()}
       width="90%"
       height="75%"
     >
@@ -19,10 +19,8 @@ const Modal = ({ isVisible, setVisible, promotion, color }) => {
             <Avatar
               size="xlarge"
               rounded
-              source={{
-                uri: promotion.product.url,
-              }}
-              containerStyle={styles.avatar}
+              source={{ uri: promotion.product.url }}
+              containerStyle={[styles.avatar, { borderColor: color }]}
             />
             <Text h4 style={styles.title}>
               {promotion.libelle}
@@ -35,8 +33,8 @@ const Modal = ({ isVisible, setVisible, promotion, color }) => {
         <Button
           icon={<Icon name="undo" size={15} color="white" />}
           title=" Scan QRcode"
-          buttonStyle={{ backgroundColor: '#20B4BA' }}
-          onPress={() => setVisible(!isVisible)}
+          buttonStyle={{ backgroundColor: color }}
+          onPress={() => toggle()}
         />
       </View>
     </Overlay>

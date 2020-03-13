@@ -1,39 +1,55 @@
-import React, { useState, useEffect } from 'react';
-import { View } from 'react-native';
-import { ListItem, Header } from 'react-native-elements';
-import constants from '../../constants';
-import Modal from '../Modal/Modal';
+import React, { useState, useEffect } from 'react'
+import { View } from 'react-native'
+import { ListItem, Header } from 'react-native-elements'
+import constants from '../../constants'
+import Modal from '../Modal/Modal'
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner'
 
 const PromotionsList = () => {
-  const [promotions, setPromotions] = useState([]);
-  const [modal, setModal] = useState(false);
-  const [selectedPromotion, setSelectedPromotion] = useState();
+
+  const [state, setState] = useState({
+    loading: false,
+    promotions: [],
+    modalVisible: false,
+    selectedPromotion: null
+  })
 
   useEffect(() => {
-    fetch(`${constants.api}/coupon`)
-      .then(response => response.json())
-      .then(res => setPromotions(res));
+    fetchPromotions();
   }, []);
 
+  const fetchPromotions = () => {
+    setState({ ...state, loading: true });
+    fetch(`${constants.api}/coupon`)
+      .then(response => response.json())
+      .then(res => setState({ ...state, promotions: res, loading: false }));
+  }
+
   const handleListItemPress = promotion => {
-    setSelectedPromotion(promotion);
-    setModal(true);
-  } 
+    setState({ ...state, modalVisible: true, selectedPromotion: promotion });
+  }
+
+  const toggleModal = () => {
+    setState({ ...state, modalVisible: !state.modalVisible })
+  };
 
   return (
     <View>
       {/* Header */}
       <Header
         placement="left"
-        backgroundColor="#ff99ff"
+        backgroundColor={constants.colors.secondary}
         leftComponent={{
           text: 'Promotions',
           style: { color: '#fff', fontWeight: 'bold' },
         }}
-        rightComponent={{ text: `${promotions.length} Availables`, style: { color: '#fff' } }}
+        rightComponent={{
+          text: `${state.promotions.length} Availables`,
+          style: { color: '#fff' },
+        }}
       />
       {/* List with all active promotions */}
-      {promotions.map((promotion, i) => (
+      {state.promotions.map((promotion, i) => (
         <ListItem
           leftAvatar={{ source: { uri: promotion.product.url } }}
           title={promotion.libelle}
@@ -45,13 +61,15 @@ const PromotionsList = () => {
       ))}
       {/* Modal with promotion's informations */}
       <Modal
-        isVisible={modal}
-        setVisible={setModal}
-        promotion={selectedPromotion}
-        color={'#ff99ff'}
+        isVisible={state.modalVisible}
+        toggle={toggleModal}
+        promotion={state.selectedPromotion}
+        color={constants.colors.secondary}
       />
+      {/* Loading spinner when data are fetch */}
+      <LoadingSpinner loading={state.loading} />
     </View>
   )
 }
 
-export default PromotionsList;
+export default PromotionsList
