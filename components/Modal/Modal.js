@@ -1,39 +1,31 @@
 import React from 'react'
-import { Overlay, Button, Text, Avatar } from 'react-native-elements'
-import Icon from 'react-native-vector-icons/FontAwesome'
+import { Overlay, Button } from 'react-native-elements'
+import Promotion from './Promotion/Promotion'
+import Error from './Error/Error'
 import { View } from 'react-native'
+import Icon from 'react-native-vector-icons/FontAwesome'
 import styles from './styles'
 
-const Modal = ({ isVisible, toggle, promotion, color }) => {
+const Modal = ({ modal, toggle, color }) => {
   return (
     <Overlay
-      isVisible={isVisible}
-      windowBackgroundColor="rgba(255, 255, 255, .5)"
+      isVisible={modal.isVisible}
+      height="50%"
       onBackdropPress={() => toggle()}
-      width="90%"
-      height="75%"
+      height="auto"
     >
-      <View>
-        {promotion && (
-          <View style={{ alignItems: 'center' }}>
-            <Avatar
-              size="xlarge"
-              rounded
-              source={{ uri: promotion.product.url }}
-              containerStyle={[styles.avatar, { borderColor: color }]}
-            />
-            <Text h4 style={styles.title}>
-              {promotion.libelle}
-            </Text>
-            <Text style={styles.description}>
-              {promotion.description}
-            </Text>
-          </View>
-        )}
+      <View style={{ alignItems: 'center' }}>
+        <View>
+          {modal.type === 'error' && <Error modal={modal} toggle={toggle} />}
+          {modal.type === 'promotion' && (
+            <Promotion modal={modal} toggle={toggle} color={color} />
+          )}
+        </View>
         <Button
           icon={<Icon name="undo" size={15} color="white" />}
-          title=" Scan QRcode"
+          title=" Go Back"
           buttonStyle={{ backgroundColor: color }}
+          containerStyle={styles.button}
           onPress={() => toggle()}
         />
       </View>

@@ -10,8 +10,11 @@ const PromotionsList = () => {
   const [state, setState] = useState({
     loading: false,
     promotions: [],
-    modalVisible: false,
-    selectedPromotion: null
+    modal: {
+      type: 'promotion',
+      isVisible: false,
+      data: null
+    }
   })
 
   useEffect(() => {
@@ -26,11 +29,25 @@ const PromotionsList = () => {
   }
 
   const handleListItemPress = promotion => {
-    setState({ ...state, modalVisible: true, selectedPromotion: promotion });
+    setState({
+      ...state,
+      modal: {
+        ...state.modal,
+        isVisible: true,
+        data: promotion
+      }
+    });
   }
 
   const toggleModal = () => {
-    setState({ ...state, modalVisible: !state.modalVisible })
+    setState({
+      ...state,
+      modal: {
+        ...state.modal,
+        isVisible: false,
+        data: null
+      }
+    })
   };
 
   return (
@@ -61,9 +78,8 @@ const PromotionsList = () => {
       ))}
       {/* Modal with promotion's informations */}
       <Modal
-        isVisible={state.modalVisible}
+        modal={state.modal}
         toggle={toggleModal}
-        promotion={state.selectedPromotion}
         color={constants.colors.secondary}
       />
       {/* Loading spinner when data are fetch */}

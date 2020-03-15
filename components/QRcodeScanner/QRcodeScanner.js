@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, Text, Alert } from 'react-native'
+import { View, StyleSheet, Text } from 'react-native'
 import Modal from '../Modal/Modal'
 import { BarCodeScanner } from 'expo-barcode-scanner'
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -9,55 +9,81 @@ import constants from '../../constants'
 import styles from './styles'
 
 const QRcodeScanner = ({ isFocused }) => {
-
   const [state, setState] = useState({
     hasCameraPermission: null,
-    scanned: false,
-    promotion: null,
     loading: false,
+    modal: {
+      type: null,
+      isVisible: false,
+      data: null
+    }
   })
 
   useEffect(() => {
-    getPermissionsAsync();
-  }, []);
+    getPermissionsAsync()
+  }, [])
 
   getPermissionsAsync = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    const { status } = await Permissions.askAsync(Permissions.CAMERA)
     setState({
       ...state,
       hasCameraPermission: {
         hasCameraPermission: { hasCameraPermission: status === 'granted' },
-      }
-    });
+      },
+    })
   }
 
-  handleBarCodeScanned = ({ data }) => {
+  handleBarCodeScanned = async ({ data }) => {
     setState({ ...state, loading: true });
     fetch(`${constants.api}/coupon/${data}`)
-      .then(response => {
-        if (response.ok) {
-          return response.json()
-        }
-        throw Error()
+      .then(response => { 
+        if (response.status === 404) throw Error('Promotion not found!');
+        if (response.ok) return response.json();
+        throw Error('Error');
       })
-      .then(res => {
-        setState({ ...state, promotion: res, scanned: true, loading: false });
+      .then(responseJson => {
+        setState({ ...state, loading: false,
+          modal: {
+            type: 'promotion',
+            isVisible: true,
+            data: responseJson
+          }
+        });
       })
-      .catch(err => Alert.alert('GoStyle', 'Promotion not found!'))
+      .catch(err => {
+        setState({
+          ...state, loading: false,
+          modal: {
+            type: 'error',
+            isVisible: true,
+            data: err
+          }
+        });
+      });
   }
 
-  const toggleModal = () => setState({ ...state, scanned: !state.scanned })
+  // Close modal with promotion's information
+  toggleModal = () => {
+    setState({
+      ...state,
+      modal: {
+        type: null,
+        isVisible: false,
+        data: null
+      }
+    })
+  }
 
   return (
     <View style={styles.container}>
       {/* Active BarCodeScanner only if Tab "QR Code Reader" is active */}
       {isFocused && (
         <BarCodeScanner
-          onBarCodeScanned={state.scanned ? undefined : handleBarCodeScanned}
+          onBarCodeScanned={state.modal.isVisible ? undefined : handleBarCodeScanned}
           style={StyleSheet.absoluteFillObject}
         >
           {/* Display text indications only if QR Code is not scanned yet */}
-          {!state.scanned && (
+          {!state.modal.isVisible && (
             <View>
               <Text style={[styles.text, styles.scanText]}>Scan QR Code</Text>
               <Icon style={[styles.text, styles.scanArrow]} name="arrow-down" />
@@ -71,9 +97,8 @@ const QRcodeScanner = ({ isFocused }) => {
 
       {/* Modal with promotion's informations */}
       <Modal
-        isVisible={state.scanned}
+        modal={state.modal}
         toggle={toggleModal}
-        promotion={state.promotion}
         color={constants.colors.primary}
       />
     </View>
