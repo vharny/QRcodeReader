@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, Text } from 'react-native'
+import { View, Image, StyleSheet, Text } from 'react-native'
 import Modal from '../Modal/Modal'
 import { BarCodeScanner } from 'expo-barcode-scanner'
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -7,6 +7,7 @@ import LoadingSpinner from '../LoadingSpinner/LoadingSpinner'
 import * as Permissions from 'expo-permissions'
 import constants from '../../constants'
 import styles from './styles'
+import picture from '../../assets/carre.png'
 
 const QRcodeScanner = ({ isFocused }) => {
   const [state, setState] = useState({
@@ -15,8 +16,8 @@ const QRcodeScanner = ({ isFocused }) => {
     modal: {
       type: null,
       isVisible: false,
-      data: null
-    }
+      data: null,
+    },
   })
 
   useEffect(() => {
@@ -34,32 +35,35 @@ const QRcodeScanner = ({ isFocused }) => {
   }
 
   handleBarCodeScanned = async ({ data }) => {
-    setState({ ...state, loading: true });
+    setState({ ...state, loading: true })
     fetch(`${constants.api}/coupon/${data}`)
-      .then(response => { 
-        if (response.status === 404) throw Error('Promotion not found!');
-        if (response.ok) return response.json();
-        throw Error('Error');
+      .then(response => {
+        if (response.status === 404) throw Error('Promotion not found!')
+        if (response.ok) return response.json()
+        throw Error('Error')
       })
       .then(responseJson => {
-        setState({ ...state, loading: false,
+        setState({
+          ...state,
+          loading: false,
           modal: {
             type: 'promotion',
             isVisible: true,
-            data: responseJson
-          }
-        });
+            data: responseJson,
+          },
+        })
       })
       .catch(err => {
         setState({
-          ...state, loading: false,
+          ...state,
+          loading: false,
           modal: {
             type: 'error',
             isVisible: true,
-            data: err
-          }
-        });
-      });
+            data: err,
+          },
+        })
+      })
   }
 
   // Close modal with promotion's information
@@ -69,8 +73,8 @@ const QRcodeScanner = ({ isFocused }) => {
       modal: {
         type: null,
         isVisible: false,
-        data: null
-      }
+        data: null,
+      },
     })
   }
 
@@ -79,15 +83,22 @@ const QRcodeScanner = ({ isFocused }) => {
       {/* Active BarCodeScanner only if Tab "QR Code Reader" is active */}
       {isFocused && (
         <BarCodeScanner
-          onBarCodeScanned={state.modal.isVisible ? undefined : handleBarCodeScanned}
+          onBarCodeScanned={
+            state.modal.isVisible ? undefined : handleBarCodeScanned
+          }
           style={StyleSheet.absoluteFillObject}
         >
           {/* Display text indications only if QR Code is not scanned yet */}
           {!state.modal.isVisible && (
-            <View>
+            <>
               <Text style={[styles.text, styles.scanText]}>Scan QR Code</Text>
               <Icon style={[styles.text, styles.scanArrow]} name="arrow-down" />
-            </View>
+              <Image
+                source={picture}
+                resizeMode="contain"
+                style={styles.carreQrCode}
+              />
+            </>
           )}
         </BarCodeScanner>
       )}
