@@ -8,15 +8,21 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-navigation/material-bottom-tabs": "^5.1.1",
+    "@react-navigation/native": "^5.0.9",
     "expo": "^35.0.0",
+    "expo-barcode-scanner": "~7.0.0",
     "react": "16.8.3",
     "react-dom": "16.8.3",
     "react-native": "https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz",
-    "react-native-web": "^0.11.7",
-    "expo-barcode-scanner": "~7.0.0"
+    "react-native-elements": "^1.2.7",
+    "react-native-paper": "^3.6.0",
+    "react-native-vector-icons": "^6.6.0",
+    "react-native-web": "^0.11.7"
   },
   "devDependencies": {
-    "babel-preset-expo": "^7.1.0"
+    "babel-preset-expo": "^7.1.0",
+    "prettier": "1.19.1"
   },
   "private": true
 }

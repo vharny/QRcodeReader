@@ -1,6 +1,13 @@
-import React from 'react'
-import QRcodeScanner from './components/QRcodeScanner'
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import Navigation from "./components/Navigation/Navigation";
 
-const App = () => <QRcodeScanner />
+const App = () => {
+  return (
+    <NavigationContainer>
+      <Navigation />
+    </NavigationContainer>
+  );
+};
 
-export default App
+export default App;
