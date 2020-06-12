@@ -7,7 +7,6 @@ afterEach(cleanup)
 describe('<App />', () => {
   it('has 2 child', () => {
     const tree = render(<App />).toJSON();
-    console.log(tree)
     expect(tree.children.length).toBe(2);
   });
 });

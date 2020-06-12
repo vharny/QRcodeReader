@@ -6,6 +6,7 @@ import { Overlay } from 'react-native-elements'
 const LoadingSpinner = ({ loading }) => {
   return (
     <Overlay
+      testID="loading"
       isVisible={loading}
       fullScreen
       overlayStyle={styles.overlay}
