@@ -1,8 +1,8 @@
 import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import QRcodeReader from '../../screens/QRcodeReader';
-import Promotions from '../../screens/Promotions';
+import QRcodeReader from '../../screens/QRcodeReader/QRcodeReader';
+import Promotions from '../../screens/Promotions/Promotions';
 import constants from '../../constants';
 
 const Navigation = () => {
